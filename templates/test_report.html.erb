@@ -29,31 +29,30 @@
       <div class="row">
         <h2>examples</h2>
         <% examples.each do |example_hash, example| %>
-          <div class="row">
-            <% if example.steps.size - 1 == index %>
-            <div class="col-md-5 <%= background_by_status example.status %>">
-            <% else %>
-            <div class="col-md-5 %>">
-            <% end %>
-              <a href="./<%= example_hash %>-<%= index %>.png">
-                <img id="<%= example_hash %>" class="img-rounded" height="426" wedth="320" src="./<%= example_hash %>-<%= index %>.png">
-              </a>
-            </div>
-            <div class="col-md-6">
-              <p><%= example.groups.join(" - ") %></p>
-            <p><%= step %><p>
-            <% if example.steps.size - 1 == index %>
-              <% unless example.fail_info.nil? %>
-              <p><%= example.fail_info.exception %></p>
-              <ul>
-                <% example.fail_info.backtraces.each do |backtrace| %>
-                  <li><%= backtrace %></li>
+          <h3 id=<%= example_hash %>><%= example.groups.join(" - ") %></h3>
+          <% example.steps.each_with_index do |step, index| %>
+            <div class="row <%= (example.steps.size - 1 == index)? background_by_status(example.status) : "" %>">
+              <div class="col-md-5">
+                <a href="./<%= example_hash %>-<%= index %>.png">
+                  <img class="img-rounded" height="256" wedth="320" src="./<%= example_hash %>-<%= index %>.png">
+                </a>
+              </div>
+              <div class="col-md-6">
+                <p><%= step %><p>
+                <% if example.steps.size - 1 == index %>
+                  <% unless example.fail_info.nil? %>
+                    <p><%= example.fail_info.exception %></p>
+                    <ul>
+                      <% example.fail_info.backtraces.each do |backtrace| %>
+                        <li><%= backtrace %></li>
+                      <% end %>
+                    </ul>
+                  <% end %>
                 <% end %>
-              </ul>
-              <% end %>
-            <% end %>
-            </div>
-          </div>
+              </div>
+            </div><!-- row -->
+          <% end %>
+          <hr />
         <% end %>
       </div>
     </div>
