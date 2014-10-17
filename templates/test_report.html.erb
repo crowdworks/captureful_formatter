@@ -4,60 +4,62 @@
     <meta charset="UTF-8">
     <title><%= title %></title>
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css">
-      .screenshot {
-        display: inline-block;
-        background-color: #ccc;
-        background-position: center center;
-        background-repeat: no-repeat;
-        margin: 5px;
-        width: 480px;
-        height: 384px;
-        border: 1px solid #ccc;
-        background-size: contain;
-      }
-    </style>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <h2 id="index">index</h2>
-    <ul>
-      <% examples.each do |example_hash, example| %>
-        <li class="<%= background_by_status example.status %>"><a href="#<%= example_hash %>"><%= example.groups.join(" - ") %></a></li>
-      <% end %>
-    </ul>
-    <hr>
-    <h2>examples</h2>
-    <% examples.each do |example_hash, example| %>
-      <table id=<%= example_hash %> class="example table">
-        <caption><%= example.groups.join(" - ") %>:<a href="#index">page top</a></caption>
-        <% example.steps.each_with_index do |step, index| %>
-          <% if example.steps.size - 1 == index %>
-          <tr class="<%= background_by_status example.status %>">
-          <% else %>
-          <tr>
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <a class="navbar-brand" href="#" title="<%= title %>">
+          <span class="navbar-brand-left-color"><%= title %></span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <h2 id="index">index</h2>
+        <ul>
+          <% examples.each do |example_hash, example| %>
+            <li class="<%= background_by_status example.status %>"><a href="#<%= example_hash %>"><%= example.groups.join(" - ") %></a></li>
           <% end %>
-          <td>
-            <span class="screenshot" style="background-image: url('./<%= example_hash %>-<%= index %>.png')"></span><br>
-            <a href="./<%= example_hash %>-<%= index %>.png">full image</a>|<a href="./<%= example_hash %>-<%= index %>.html">output html</a>
-          </td>
-          <td>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <h2>examples</h2>
+        <% examples.each do |example_hash, example| %>
+          <div class="row">
+            <% if example.steps.size - 1 == index %>
+            <div class="col-md-5 <%= background_by_status example.status %>">
+            <% else %>
+            <div class="col-md-5 %>">
+            <% end %>
+              <a href="./<%= example_hash %>-<%= index %>.png">
+                <img id="<%= example_hash %>" class="img-rounded" height="426" wedth="320" src="./<%= example_hash %>-<%= index %>.png">
+              </a>
+            </div>
+            <div class="col-md-6">
+              <p><%= example.groups.join(" - ") %></p>
             <p><%= step %><p>
             <% if example.steps.size - 1 == index %>
-            <% unless example.fail_info.nil? %>
+              <% unless example.fail_info.nil? %>
               <p><%= example.fail_info.exception %></p>
               <ul>
                 <% example.fail_info.backtraces.each do |backtrace| %>
                   <li><%= backtrace %></li>
                 <% end %>
               </ul>
+              <% end %>
             <% end %>
-            <% end %>
-          </td>
-          </tr>
+            </div>
+          </div>
         <% end %>
-      </table>
-      <hr>
-    <% end %>
+      </div>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   </body>
 </html>
