@@ -3,6 +3,8 @@ require 'ostruct'
 
 module CapturefulFormatter
   module Printer
+    class TemplateMissingError < StandardError; end
+
     class Template < OpenStruct
       def render(template)
         ERB.new(template).result(binding)
@@ -22,8 +24,7 @@ module CapturefulFormatter
       attr_accessor :title
 
       def print examples
-        # FIXME: choosable user specified directory or gem's templates dierectory
-        path = File.dirname(__FILE__) + "/../../templates/" + CapturefulFormatter.configuration.template_name
+        path = template_path
         params = {
           title: "test report",
           examples: examples
@@ -31,6 +32,14 @@ module CapturefulFormatter
         template = Template.new(params)
         filename = CapturefulFormatter.configuration.output_directory + "/index.html"
         File.write(filename ,template.render(File.read(path)))
+      end
+
+      def template_path
+        path = CapturefulFormatter.configuration.template_path
+        path = File.absolute_path(path)
+        raise TemplateMissingError, path unless File.exists? path
+
+        path
       end
     end
   end

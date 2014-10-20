@@ -59,6 +59,8 @@ module CapturefulFormatter
 
     def stop notification
       publish_reports
+    rescue => e
+      CapturefulFormatter.configuration.logger.error e.to_s
     ensure
       cleanup_reports
     end

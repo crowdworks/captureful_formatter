@@ -11,7 +11,7 @@ describe CapturefulFormatter do
     subject { CapturefulFormatter.configuration }
     it { is_expected.to have_attributes(:output_directory => "./.captureful_formatter")}
     it { is_expected.to have_attributes(:target_type => [:feature])}
-    it { is_expected.to have_attributes(:template_name => "test_report.html.erb")}
+    it { is_expected.to have_attributes(:template_path => a_string_starting_with("/"))}
   end
 
   describe ".configure" do
