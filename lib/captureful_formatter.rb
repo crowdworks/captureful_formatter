@@ -47,7 +47,7 @@ end
 CapturefulFormatter.configure do |c|
   c.output_directory = "./.captureful_formatter"
   c.target_type      = [:feature]
-  c.template_path    = File.dirname(__FILE__) + "/../templates/test_report.html.erb"
+  c.template_path    = File.join(File.dirname(__FILE__), "/../templates/test_report.html.erb")
 end
 
 require 'captureful_formatter/rspec_ext/rspec_core_reporter'

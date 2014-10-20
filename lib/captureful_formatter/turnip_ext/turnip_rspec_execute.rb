@@ -15,4 +15,4 @@ module CapturefulFormatter
   end
 end
 
-::Turnip::RSpec::Execute.send(:prepend, CapturefulFormatter::Turnip::RSpec::Execute)
+::Turnip::RSpec::Execute.prepend(CapturefulFormatter::Turnip::RSpec::Execute)

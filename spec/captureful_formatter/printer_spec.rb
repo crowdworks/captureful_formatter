@@ -15,7 +15,7 @@ describe CapturefulFormatter::Printer do
     subject { CapturefulFormatter::Printer.template_path }
 
     it "returns default template" do
-      expect(subject).to eq File.absolute_path(File.dirname(__FILE__) + "../../../templates/test_report.html.erb")
+      expect(subject).to eq File.absolute_path(File.join(File.dirname(__FILE__) + "../../../templates/test_report.html.erb"))
     end
 
     describe "on seted up template path at configure" do
@@ -26,7 +26,7 @@ describe CapturefulFormatter::Printer do
       end
 
       context "setup a absolute path" do
-        let(:template) { File.dirname(__FILE__) + "/../example/test_template.erb.html" }
+        let(:template) { File.join(File.dirname(__FILE__), "/../example/test_template.erb.html") }
         it_behaves_like "a safety file path"
       end
 

@@ -30,7 +30,7 @@ module CapturefulFormatter
           examples: examples
         }
         template = Template.new(params)
-        filename = CapturefulFormatter.configuration.output_directory + "/index.html"
+        filename = File.join(CapturefulFormatter.configuration.output_directory, "/index.html")
         File.write(filename ,template.render(File.read(path)))
       end
 

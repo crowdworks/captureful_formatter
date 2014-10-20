@@ -33,7 +33,7 @@ Run this command.
 
 ```ruby
 CapturefulFormatter.configure do |config|
-  c.output_directory = "./.captureful_formatter" # path to test report output.
+  c.output_directory = "./.captureful_formatter" # The path to where the test report is saved.
   c.template_path = "path/to/template" # your custom template file path.
 end
 ```
