@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "captureful_formatter"
   spec.version       = CapturefulFormatter::VERSION
   spec.authors       = ["Atsushi Yasuda"]
-  spec.email         = ["atsushi.yasuda@crowdworks.co.jp"]
+  spec.email         = ["atsushi.yasuda.jp@gmail.com"]
   spec.summary       = %q(Yet another RSpec custom formatter for Turnip)
   spec.description   = %q(Yet another RSpec custom formatter for Turnip. Take screenshots step by step.)
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/crowdworks/captureful_formatter"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
