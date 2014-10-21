@@ -19,4 +19,4 @@ module CapturefulFormatter
   end
 end
 
-::RSpec::Core::Reporter.send(:prepend,  CapturefulFormatter::RSpec::Core::Reporter)
+::RSpec::Core::Reporter.prepend(CapturefulFormatter::RSpec::Core::Reporter)

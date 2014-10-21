@@ -29,6 +29,17 @@ Run this command.
 
     $ rspec
 
+## Configuration
+
+```ruby
+CapturefulFormatter.configure do |config|
+  c.output_directory = "./.captureful_formatter" # The path to where the test report is saved.
+  c.template_path = "path/to/template" # your custom template file path.
+end
+```
+
+now, captureful_formatter support erb template only.
+
 ## Contributing
 
 1. Fork it ( https://github.com/ayasuda/captureful_formatter/fork )

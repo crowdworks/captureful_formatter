@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+  </head>
+  <body>
+    <ul>
+      <% examples.each do |example_hash, example| %>
+        <li><%= example.groups.join(" - ") %></li>
+      <% end %>
+    </ul>
+  </body>
+</html>
