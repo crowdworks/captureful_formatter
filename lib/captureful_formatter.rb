@@ -1,6 +1,7 @@
 require 'captureful_formatter/formatter'
 require 'captureful_formatter/notifications'
 require 'captureful_formatter/printer'
+require 'captureful_formatter/structures'
 require 'captureful_formatter/version'
 require 'logger'
 
@@ -20,6 +21,8 @@ module CapturefulFormatter
   end
 
   class Configuration
+    attr_accessor :project_name
+
     attr_accessor :output_directory
 
     # what types to take screenshot
@@ -45,6 +48,7 @@ module CapturefulFormatter
 end
 
 CapturefulFormatter.configure do |c|
+  c.project_name     = "Your Project"
   c.output_directory = "./.captureful_formatter"
   c.target_type      = [:feature]
   c.template_path    = File.join(File.dirname(__FILE__), "/../templates/test_report.html.erb")

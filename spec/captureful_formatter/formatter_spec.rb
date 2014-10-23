@@ -44,6 +44,8 @@ describe CapturefulFormatter::Formatter do
     before do
       allow(RSpec::Core::ExampleGroup).to receive(:metadata).and_return({type: :feature})
       formatter.example_group_started group_notification
+      allow(RSpec::Core::ExampleGroup).to receive(:metadata).and_return({type: :feature, parent_example_group: {description: "test feature"}})
+      formatter.example_group_started group_notification
     end
 
     describe "at step by steps" do

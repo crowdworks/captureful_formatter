@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <title><%= title %></title>
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
   </head>
-  <body>
+  <body style="background-color: #ececec;">
     <nav class="navbar navbar-inverse navbar-static-top">
       <div class="container">
         <a class="navbar-brand" href="#" title="<%= title %>">
@@ -16,49 +16,77 @@
 
     <div class="container">
       <div class="row">
-        <h2 id="index">index</h2>
-        <ul>
-          <% examples.each do |example_hash, example| %>
-            <li class="<%= background_by_status example.status %>"><a href="#<%= example_hash %>"><%= example.groups.join(" - ") %></a></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <h2>examples</h2>
-        <% examples.each do |example_hash, example| %>
-          <h3 id=<%= example_hash %>><%= example.groups.join(" - ") %></h3>
-          <% example.steps.each_with_index do |step, index| %>
-            <div class="row <%= (example.steps.size - 1 == index)? background_by_status(example.status) : "" %>">
-              <div class="col-md-5">
-                <a href="./<%= example_hash %>-<%= index %>.png">
-                  <img class="img-rounded" height="256" wedth="320" src="./<%= example_hash %>-<%= index %>.png">
-                </a>
-              </div>
-              <div class="col-md-6">
-                <p><%= step %><p>
-                <% if example.steps.size - 1 == index %>
-                  <% unless example.fail_info.nil? %>
-                    <p><%= example.fail_info.exception %></p>
-                    <ul>
-                      <% example.fail_info.backtraces.each do |backtrace| %>
-                        <li><%= backtrace %></li>
-                      <% end %>
-                    </ul>
-                  <% end %>
+        <div class="col-md-3">
+          <ul class="nav nav-list affix">
+            <% features.each do |feature| %>
+              <li>
+              <a href="#<%= feature.description %>">
+                <%= feature.description %>
+                <% if feature.all_passed %>
+                  <span class="label label-success">all passed</span>
                 <% end %>
-              </div>
-            </div><!-- row -->
+                <% if feature.num_failed > 0 %>
+                  <span class="badge alert-danger"><%= feature.num_failed %></span>
+                <% end %>
+                <% if feature.num_pending > 0 %>
+                  <span class="badge alert-warning"><%= feature.num_pending %></span>
+                <% end %>
+              </a>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="col-md-9">
+          <!-- Test Report -->
+          <div class="page-header">
+            <h1><%= title %> <small>test report</small></h1>
+          </div>
+          <% features.each do |feature| %>
+            <section id="<%= feature.description %>">
+              <h2><%= feature.description %></h2>
+              <ol>
+                <% feature.scenarios.each do |scenario| %>
+                  <li>
+                  <a href="#<%= scenario.hash %>">
+                    <%= scenario.description %>
+                    <% if scenario.status == :passed %>
+                      <span class="label label-success">passed</span>
+                    <% elsif scenario.status == :pending %>
+                      <span class="label label-warning">pending</span>
+                    <% else %>
+                      <span class="label label-danger">failed</span>
+                    <% end %>
+                  </a>
+                  </li>
+                <% end %>
+              </ol>
+              <% feature.scenarios.each do |scenario| %>
+                <section id="<%= scenario.hash %>">
+                  <h3><%= scenario.description %></h3>
+                  <% scenario.steps.each_with_index do |step, index| %>
+                    <div class="row <%= (scenario.step_count - 1 == index)? background_by_status(scenario.status) : "" %>">
+                      <div class="col-md-6">
+                        <a href="./<%= scenario.hash %>-<%= index + 1 %>.png">
+                          <img class="img-thumbnail" height="256" wedth="320" src="./<%= scenario.hash %>-<%= index + 1 %>.png">
+                        </a>
+                      </div>
+                      <div class="col-md-6">
+                        <p><%= step.description %><p>
+                        <% if ((scenario.step_count - 1) == index) && scenario.status == :failed && !scenario.exception.nil? %>
+                            <p><%= scenario.exception.to_s %></p>
+                        <% end %>
+                      </div>
+                    </div><!-- row -->
+                    <hr />
+                  <% end %>
+                </section>
+              <% end %>
+            </section>
           <% end %>
-          <hr />
-        <% end %>
+          <!-- Test Report -->
+        </div>
       </div>
     </div>
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   </body>
 </html>

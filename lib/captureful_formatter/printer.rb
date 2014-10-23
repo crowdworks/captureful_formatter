@@ -23,11 +23,11 @@ module CapturefulFormatter
     class << self
       attr_accessor :title
 
-      def print examples
+      def print features
         path = template_path
         params = {
-          title: "test report",
-          examples: examples
+          title: CapturefulFormatter.configuration.project_name,
+          features: features
         }
         template = Template.new(params)
         filename = File.join(CapturefulFormatter.configuration.output_directory, "/index.html")

@@ -1,5 +1,4 @@
 require 'capybara'
-require 'digest/md5'
 require 'fileutils'
 require 'rspec/core'
 require "rspec/core/formatters/base_formatter"
@@ -9,52 +8,56 @@ module CapturefulFormatter
     ::RSpec::Core::Formatters.register self, :start, :example_group_started, :example_group_finished,
                                              :example_started, :step_started, :example_passed, :example_pending, :example_failed, :stop
 
-    Example = Struct.new("Example", :groups, :steps, :status, :fail_info)
     FailInfo = Struct.new("FailInfo", :exception, :backtraces)
 
     def start notification
       @should_capture = false
-      @examples = {}
-      @group_level = 0
-      @group_examples = []
+      @features = []
     end
 
     def example_group_started notification
-      @should_capture = CapturefulFormatter.configuration.target_type.include? notification.group.metadata[:type]
-      @group_level += 1
-      @group_examples.push notification.group.description
+      if notification.group.metadata[:parent_example_group].nil?
+        @should_capture = CapturefulFormatter.configuration.target_type.include? notification.group.metadata[:type]
+        @current_feature = CapturefulFormatter::Structures::Feature.new(notification)
+      else
+        @current_scenario = CapturefulFormatter::Structures::Scenario.new(notification)
+      end
     end
 
     def example_group_finished(notification)
-      @should_capture = false
-      @group_level -= 1
-      @group_examples.pop
+      if notification.group.metadata[:parent_example_group].nil?
+        @features.push @current_feature
+        @should_capture = false
+      else
+        @current_feature.scenarios.push @current_scenario
+      end
     end
 
     def example_started notification
       return unless @should_capture
-      @current_example_hash = Digest::MD5.hexdigest(@group_examples.join())
-      @examples[@current_example_hash] = Example.new(@group_examples.dup, [] , nil, nil)
     end
 
     def step_started notification
-      save_step_sessions notification.description
+      return unless @should_capture
+      @current_scenario.steps.push CapturefulFormatter::Structures::Step.new(notification)
+      save_step_sessions
     end
 
     def example_passed notification
       return unless @should_capture
-      @examples[@current_example_hash].status = :passed
+
+      @current_scenario.status = :passed
     end
 
     def example_pending notification
       return unless @should_capture
-      @examples[@current_example_hash].status = :pending
+      @current_scenario.status = :pending
     end
 
     def example_failed notification
       return unless @should_capture
-      @examples[@current_example_hash].status = :failed
-      @examples[@current_example_hash].fail_info = FailInfo.new(notification.exception.to_s, notification.formatted_backtrace.dup)
+      @current_scenario.status = :failed
+      @current_scenario.exception = notification.exception
     end
 
     def stop notification
@@ -71,18 +74,16 @@ module CapturefulFormatter
       @dir ||= Pathname.new(Dir.mktmpdir ["d", self.object_id.to_s ])
     end
 
-    def save_step_sessions step_description
+    def save_step_sessions
       return unless @should_capture
-      current_count = @examples[@current_example_hash].steps.size
-      @examples[@current_example_hash].steps << step_description
-      filename_base = report_save_dir.join("#{@current_example_hash}-#{current_count.to_s}")
+      filename_base = report_save_dir.join("#{@current_scenario.hash}-#{@current_scenario.step_count.to_s}")
       Capybara.current_session.save_page       filename_base.sub_ext(".html")
       Capybara.current_session.save_screenshot filename_base.sub_ext(".png")
     end
 
     def publish_reports
       FileUtils.copy_entry report_save_dir, CapturefulFormatter.configuration.output_directory
-      CapturefulFormatter::Printer.print @examples
+      CapturefulFormatter::Printer.print @features
     end
 
     def cleanup_reports
