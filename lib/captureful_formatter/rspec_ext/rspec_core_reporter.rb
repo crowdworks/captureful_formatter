@@ -19,4 +19,4 @@ module CapturefulFormatter
   end
 end
 
-::RSpec::Core::Reporter.prepend(CapturefulFormatter::RSpec::Core::Reporter)
+::RSpec::Core::Reporter.class_eval { prepend(CapturefulFormatter::RSpec::Core::Reporter) }
