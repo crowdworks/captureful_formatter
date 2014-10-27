@@ -4,7 +4,7 @@ require 'securerandom'
 describe CapturefulFormatter do
   describe "VERSION" do
     subject { CapturefulFormatter::VERSION }
-    it { is_expected.to eq "0.0.1" }
+    it { is_expected.to eq "0.0.2" }
   end
 
   describe ".configuration" do
