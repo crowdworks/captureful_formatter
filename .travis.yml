@@ -4,5 +4,5 @@ rvm:
 - 2.1
 gemfile:
 - Gemfile # HEAD
-- gemfiles/Gemfile-rspec-3.0.x
-- gemfiles/Gemfile-rspec-3.1.x
+- spec/gemfiles/Gemfile-rspec-3.0.x
+- spec/gemfiles/Gemfile-rspec-3.1.x
