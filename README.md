@@ -31,12 +31,13 @@ Run this command.
 
 ## Sample
 
-![output sample](https://github.com/crowdworks/captureful_formatter/bolb/better_template/sample.png)
+![output sample](https://github.com/crowdworks/captureful_formatter/blob/master/sample.png)
 
 ## Configuration
 
 ```ruby
 CapturefulFormatter.configure do |config|
+  c.project_name = "Your Project" # Title of test report
   c.output_directory = "./.captureful_formatter" # The path to where the test report is saved.
   c.template_path = "path/to/template" # your custom template file path.
 end
