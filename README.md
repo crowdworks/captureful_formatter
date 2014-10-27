@@ -1,4 +1,4 @@
-# CapturefulFormatter
+# CapturefulFormatter [![Build Status](https://travis-ci.org/crowdworks/captureful_formatter.svg)](https://travis-ci.org/crowdworks/captureful_formatter)
 
 Yet another custom formatter for [Turnip](https://github.com/jnicklas/turnip). Saving screenshots and pages each steps.
 
