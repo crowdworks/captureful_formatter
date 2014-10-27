@@ -37,9 +37,9 @@ Run this command.
 
 ```ruby
 CapturefulFormatter.configure do |config|
-  c.project_name = "Your Project" # Title of test report
-  c.output_directory = "./.captureful_formatter" # The path to where the test report is saved.
-  c.template_path = "path/to/template" # your custom template file path.
+  config.project_name = "Your Project" # Title of test report
+  config.output_directory = "./.captureful_formatter" # The path to where the test report is saved.
+  config.template_path = "path/to/template" # your custom template file path.
 end
 ```
 
