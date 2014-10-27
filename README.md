@@ -29,6 +29,10 @@ Run this command.
 
     $ rspec
 
+## Sample
+
+![output sample](https://github.com/crowdworks/captureful_formatter/bolb/better_template/sample.png)
+
 ## Configuration
 
 ```ruby

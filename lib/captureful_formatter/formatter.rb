@@ -8,8 +8,6 @@ module CapturefulFormatter
     ::RSpec::Core::Formatters.register self, :start, :example_group_started, :example_group_finished,
                                              :example_started, :step_started, :example_passed, :example_pending, :example_failed, :stop
 
-    FailInfo = Struct.new("FailInfo", :exception, :backtraces)
-
     def start notification
       @should_capture = false
       @features = []

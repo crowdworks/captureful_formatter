@@ -23,7 +23,7 @@ module CapturefulFormatter
     class << self
       attr_accessor :title
 
-      def print features
+      def print(features)
         path = template_path
         params = {
           title: CapturefulFormatter.configuration.project_name,

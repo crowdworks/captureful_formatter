@@ -1,12 +1,15 @@
 require 'digest/md5'
 
 module CapturefulFormatter
+
+  # Data Structures for template files.
   module Structures
     class Feature
       attr_accessor :scenarios
       attr_accessor :description
 
-      # GroupNotification
+      # [notification]
+      #   GroupNotification
       def initialize(notification)
         @description = notification.group.description
         @scenarios = []
@@ -35,7 +38,8 @@ module CapturefulFormatter
       attr_accessor :status
       attr_accessor :exception
 
-      # ExampleNotification
+      # [notification]
+      #   ExampleNotification
       def initialize(notification)
         @steps = []
         @status = nil
@@ -57,12 +61,11 @@ module CapturefulFormatter
     class Step
       attr_accessor :description
 
-      # StepNotification
+      # [notification]
+      #   StepNotification
       def initialize(notification)
         @description = notification.description
       end
     end
-
-#    FailInfo = Struct.new("FailInfo", :exception, :backtraces)
   end
 end
