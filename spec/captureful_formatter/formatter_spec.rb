@@ -28,10 +28,16 @@ describe CapturefulFormatter::Formatter do
   context "example group is not :feature" do
     before do
       allow(RSpec::Core::ExampleGroup).to receive(:metadata).and_return({type: :model})
-      formatter.example_group_started group_notification
+    end
+
+    describe "at example group started" do
+      it "do nothing" do
+        expect{ formatter.example_group_started group_notification }.not_to change{formatter.instance_variable_get(:@current_feature)}
+      end
     end
 
     describe "at step by steps" do
+      before { formatter.example_group_started group_notification }
       it "do nothing" do
         expect(capybara_session).not_to receive(:save_screenshot)
         expect(capybara_session).not_to receive(:save_page)
