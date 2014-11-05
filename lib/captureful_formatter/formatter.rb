@@ -10,12 +10,13 @@ module CapturefulFormatter
 
     def start notification
       @should_capture = false
+      @current_feature = nil
       @features = []
     end
 
     def example_group_started notification
       if notification.group.metadata[:parent_example_group].nil?
-        @should_capture = CapturefulFormatter.configuration.target_type.include? notification.group.metadata[:type]
+        return unless (@should_capture = type_included? notification.group.metadata[:type])
         @current_feature = CapturefulFormatter::Structures::Feature.new(notification)
       else
         @current_scenario = CapturefulFormatter::Structures::Scenario.new(notification)
@@ -23,9 +24,11 @@ module CapturefulFormatter
     end
 
     def example_group_finished(notification)
+      return unless @should_capture
       if notification.group.metadata[:parent_example_group].nil?
         @features.push @current_feature
         @should_capture = false
+        @current_feature = nil
       else
         @current_feature.scenarios.push @current_scenario
       end
@@ -67,6 +70,10 @@ module CapturefulFormatter
     end
 
   private
+
+    def type_included? type
+      CapturefulFormatter.configuration.target_type.include? type
+    end
 
     def report_save_dir
       @dir ||= Pathname.new(Dir.mktmpdir ["d", self.object_id.to_s ])
