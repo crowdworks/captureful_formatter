@@ -17,9 +17,9 @@ module CapturefulFormatter
     def example_group_started notification
       if notification.group.metadata[:parent_example_group].nil?
         return unless (@should_capture = type_included? notification.group.metadata[:type])
-        @current_feature = CapturefulFormatter::Structures::Feature.new(notification)
+        @current_feature = Structures::Feature.new(notification)
       else
-        @current_scenario = CapturefulFormatter::Structures::Scenario.new(notification)
+        @current_scenario = Structures::Scenario.new(notification)
       end
     end
 
@@ -40,7 +40,7 @@ module CapturefulFormatter
 
     def step_started notification
       return unless @should_capture
-      @current_scenario.steps.push CapturefulFormatter::Structures::Step.new(notification)
+      @current_scenario.steps.push Structures::Step.new(notification)
       save_step_sessions
     end
 
@@ -88,7 +88,7 @@ module CapturefulFormatter
 
     def publish_reports
       FileUtils.copy_entry report_save_dir, CapturefulFormatter.configuration.output_directory
-      CapturefulFormatter::Printer.print @features
+      Printer.print @features
     end
 
     def cleanup_reports
