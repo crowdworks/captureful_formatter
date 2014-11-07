@@ -69,15 +69,15 @@
                   <% scenario.steps.each_with_index do |step, index| %>
                     <div class="row <%= (scenario.step_count - 1 == index)? background_by_status(scenario.status) : "" %>">
                       <div class="col-md-6">
-                        <a href="./<%= scenario.hash %>/<%= index + 1 %>/ss.png">
-                          <img class="img-thumbnail" height="256" wedth="320" src="./<%= scenario.hash %>/<%= index + 1 %>/ss.png">
-                        </a>
-                      </div>
-                      <div class="col-md-6">
                         <p><%= step.description %><p>
                         <% if ((scenario.step_count - 1) == index) && scenario.status == :failed && !scenario.exception.nil? %>
                             <p><%= scenario.exception.to_s %></p>
                         <% end %>
+                      </div>
+                      <div class="col-md-6">
+                        <a href="./<%= scenario.hash %>/<%= index + 1 %>/ss.png">
+                          <img class="img-thumbnail" height="256" wedth="320" src="./<%= scenario.hash %>/<%= index + 1 %>/ss.png">
+                        </a>
                       </div>
                     </div><!-- row -->
                     <hr />

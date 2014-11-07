@@ -41,7 +41,7 @@ describe CapturefulFormatter::Formatter do
       it "do nothing" do
         expect(capybara_session).not_to receive(:save_screenshot)
         expect(capybara_session).not_to receive(:save_page)
-        formatter.step_started step_notification
+        formatter.step_finished step_notification
       end
     end
   end
@@ -61,7 +61,7 @@ describe CapturefulFormatter::Formatter do
       it "save page and screen shot" do
         expect(capybara_session).to receive(:save_screenshot)
         expect(capybara_session).to receive(:save_page)
-        formatter.step_started step_notification
+        formatter.step_finished step_notification
       end
     end
   end

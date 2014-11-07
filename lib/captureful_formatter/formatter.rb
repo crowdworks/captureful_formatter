@@ -5,7 +5,7 @@ require "rspec/core/formatters/base_formatter"
 module CapturefulFormatter
   class Formatter < ::RSpec::Core::Formatters::BaseFormatter
     ::RSpec::Core::Formatters.register self, :start, :example_group_started, :example_group_finished,
-                                             :example_started, :step_started, :example_passed, :example_pending, :example_failed, :stop
+                                             :example_started, :step_finished, :example_passed, :example_pending, :example_failed, :stop
 
     def start notification
       @should_capture = false
@@ -38,7 +38,7 @@ module CapturefulFormatter
       return unless @should_capture
     end
 
-    def step_started notification
+    def step_finished notification
       return unless @should_capture
       @current_scenario.steps.push Structures::Step.new(notification)
       Capturer.capture @current_scenario.hash, @current_scenario.step_count
