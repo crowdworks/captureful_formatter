@@ -40,8 +40,9 @@ module CapturefulFormatter
 
     def step_finished notification
       return unless @should_capture
-      @current_scenario.steps.push Structures::Step.new(notification)
-      Capturer.capture @current_scenario.hash, @current_scenario.step_count
+      step_struct = Structures::Step.new(notification, @current_scenario)
+      Capturer.capture step_struct
+      @current_scenario.steps.push step_struct
     end
 
     def example_passed notification

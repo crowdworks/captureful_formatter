@@ -60,11 +60,15 @@ module CapturefulFormatter
 
     class Step
       attr_accessor :description
+      attr_accessor :scenario
+      attr_accessor :captures
 
       # [notification]
       #   StepNotification
-      def initialize(notification)
+      def initialize(notification, parent_scenario)
         @description = notification.description
+        @scenario = parent_scenario
+        @captures = {}
       end
     end
   end

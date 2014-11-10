@@ -21,7 +21,18 @@ end
 Capybara.default_driver = :poltergeist
 Capybara.javascript_driver = :poltergeist
 
+class CustomCapturer < CapturefulFormatter::Capturer::Base
+  def save_file
+    "custom_file"
+  end
+
+  def capture
+    File.write(save_path, Time.now.to_s)
+  end
+end
+
 CapturefulFormatter.configure do |c|
   c.project_name = "Example"
   c.output_directory = "./report"
+  c.capturers << CustomCapturer.new
 end

@@ -59,8 +59,7 @@ describe CapturefulFormatter::Formatter do
       after  { formatter.example_passed  example_notification }
 
       it "save page and screen shot" do
-        expect(capybara_session).to receive(:save_screenshot)
-        expect(capybara_session).to receive(:save_page)
+        allow(CapturefulFormatter::Capturer).to receive(:capture)
         formatter.step_finished step_notification
       end
     end

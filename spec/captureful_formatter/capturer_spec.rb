@@ -5,6 +5,13 @@ require 'pathname'
 describe CapturefulFormatter::Capturer do
   let(:output_directory) { Dir.tmpdir + "/spec" }
 
+  let(:step_struct) do
+    instance_double(
+      "CapturefulFormatter::Structures::Step",
+      scenario: instance_double("CapturefulFormatter::Structures::Scenario", hash: "hash", step_count: 1)
+    )
+  end
+
   before do
     @orig_directory = CapturefulFormatter.configuration.output_directory
     CapturefulFormatter.configure do |c|
@@ -31,7 +38,7 @@ describe CapturefulFormatter::Capturer do
       allow(Capybara).to receive(:current_session).and_return(capybara_session)
       expect(capybara_session).to receive(:save_screenshot)
       expect(capybara_session).to receive(:save_page)
-      CapturefulFormatter::Capturer.capture "hash", 1
+      CapturefulFormatter::Capturer.capture step_struct
     end
   end
 end
