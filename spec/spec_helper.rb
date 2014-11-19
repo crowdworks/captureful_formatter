@@ -4,3 +4,6 @@ Dir.glob(File.dirname(__FILE__) + '/support/**/*.rb') { |f| require(f) }
 
 RSpec.configure do |config|
 end
+
+require 'coveralls'
+Coveralls.wear!
