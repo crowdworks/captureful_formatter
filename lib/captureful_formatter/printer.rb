@@ -18,6 +18,10 @@ module CapturefulFormatter
         else "bg-info"
         end
       end
+
+      def path_to(captures, filename)
+        captures[filename].to_s.gsub(/\.\/report\//, './')
+      end
     end
 
     class << self

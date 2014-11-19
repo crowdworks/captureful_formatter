@@ -8,6 +8,7 @@ module CapturefulFormatter
           reporter = ::RSpec.configuration.reporter
           reporter.step_started(step)
           super(feature_file, step)
+        ensure
           reporter.step_finished(step)
         end
       end

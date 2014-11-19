@@ -51,6 +51,25 @@ end
 
 now, captureful_formatter support erb template only.
 
+### Custom Capturer
+
+You can capture any resources, e.g. page screenshot, rendered html, server log files and os information.
+CapturefulFormatter allows you to add custom capturers.
+
+```ruby
+class CustomCapture < CapturefulFormatter::Capturer::Base
+  def capture
+    File.write(save_path, User.find(2).name)
+  end
+end
+
+CapturefulFormatter.configure do |config|
+  config.capturers << CustomCapture.new
+end
+```
+
+`capture` method called at every step finished, And you can save file with `save_path` method.
+
 ## Contributing
 
 1. Fork it ( https://github.com/ayasuda/captureful_formatter/fork )
