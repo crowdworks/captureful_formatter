@@ -5,37 +5,24 @@ module CapturefulFormatter
   module Printer
     class TemplateMissingError < StandardError; end
 
-    class Template < OpenStruct
-      def render(template)
-        ERB.new(template).result(binding)
-      end
+    class Base
+      attr_accessor :template_path
 
-      def background_by_status(status)
-        case status
-        when :passed then "bg-success"
-        when :pending then "bg-warning"
-        when :failed then "bg-danger"
-        else "bg-info"
-        end
-      end
-
-      def path_to(captures, filename)
-        captures[filename].to_s.gsub(/\.\/report\//, './')
-      end
+      def print params; end
     end
+
 
     class << self
       attr_accessor :title
 
       def print(features)
-        path = template_path
+        printer = CapturefulFormatter.configuration.printer.new
+        printer.template_path = template_path
         params = {
           title: CapturefulFormatter.configuration.project_name,
           features: features
         }
-        template = Template.new(params)
-        filename = File.join(CapturefulFormatter.configuration.output_directory, "/index.html")
-        File.write(filename ,template.render(File.read(path)))
+        printer.print params
       end
 
       def template_path

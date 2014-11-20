@@ -2,6 +2,7 @@ require 'captureful_formatter/capturer'
 require 'captureful_formatter/formatter'
 require 'captureful_formatter/notifications'
 require 'captureful_formatter/printer'
+require 'captureful_formatter/printer/single_page'
 require 'captureful_formatter/structures'
 require 'captureful_formatter/version'
 require 'logger'
@@ -33,6 +34,8 @@ module CapturefulFormatter
 
     attr_accessor :template_path
 
+    attr_accessor :printer
+
     def logger
       @logger ||= default_logger
     end
@@ -57,6 +60,7 @@ CapturefulFormatter.configure do |c|
   c.output_directory = "./.captureful_formatter"
   c.target_type      = [:feature]
   c.template_path    = File.join(File.dirname(__FILE__), "/../templates/test_report.html.erb")
+  c.printer          = CapturefulFormatter::Printer::SinglePage
   c.capturers << CapturefulFormatter::Capturer::ScreenShot.new
   c.capturers << CapturefulFormatter::Capturer::Page.new
 end
